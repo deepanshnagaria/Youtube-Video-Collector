@@ -12,14 +12,13 @@ retry = Retry(connect=3, backoff_factor=0.5)
 adapter = HTTPAdapter(max_retries=retry)
 session.mount('http://', adapter)
 session.mount('https://', adapter)
+import os
 
-
-
-api_key = 'AIzaSyAuMGgTPCQKlwjedvzTm_Qu_d0ZyWE6kPw'
 
 @background(schedule=0)
 def collect():
     
+    api_key = os.environ.get('API_KEY')
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
         'part':'snippet',
@@ -31,7 +30,7 @@ def collect():
 
     if response.status_code == 403:
         return 
-    print(response.json())
+        
     for i in response.json()['items']:
         v={}
         v['title'] = i['snippet']['title']
