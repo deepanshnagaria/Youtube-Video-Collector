@@ -18,8 +18,8 @@ session.mount('https://', adapter)
 api_key = 'AIzaSyAuMGgTPCQKlwjedvzTm_Qu_d0ZyWE6kPw'
 
 @background(schedule=0)
-def updation():
-
+def collect():
+    
     url = 'https://www.googleapis.com/youtube/v3/search'
     params = {
         'part':'snippet',
@@ -31,7 +31,7 @@ def updation():
 
     if response.status_code == 403:
         return 
-    
+    print(response.json())
     for i in response.json()['items']:
         v={}
         v['title'] = i['snippet']['title']
